@@ -1,0 +1,119 @@
+.background {
+    background-color: #676363;
+}
+
+.header_style {
+    background-image: url("../assets/header_image.jpg");
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-left: 2.5%;
+    border-radius: 20px;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-size: cover;
+}
+
+.new_task {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 2.5px 2.5px; /* Padding for size */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    border: none; /* Remove border */
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: all 0.3s ease; /* Smooth transition */
+    width: 15%;
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.new_task:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav_element {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.nav_element:hover {
+    text-decoration: underline;
+    opacity: 80%;
+}
+
+.tasks_style {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    height: 100%;
+    border-bottom: 5px solid black;
+    height: 100vh;
+}
+
+.task_list {
+    border-right: 5px solid black;
+    padding-right: 2%;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+.list_nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 2.5%;
+}
+
+.list_nav button {
+    border-radius: 10px;
+    box-shadow: inset;
+}
+
+#pending {
+    color: green;
+    background-color: white;
+}
+
+#completed {
+    color: green;
+    background-color: white;
+}
+
+.footer_style {
+    text-align: center;
+}
+
+.task_bars {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    row-gap: 2%;
+}
+
+.task {
+    border: 5px solid black;
+    padding-left: 2%;
+    background-color: green;
+}
+
+.task:hover {
+    background-color: aquamarine;
+    text-decoration: underline;
+    opacity: 80%;
+}
+
+.form_style {
+    background-color: yellowgreen;
+    text-align: center;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.task_display {
+    display: none;
+    padding: 2%;
+}

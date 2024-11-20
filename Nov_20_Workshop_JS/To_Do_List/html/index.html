@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html class="background">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>To do List</title>
+        <link rel="stylesheet" href="../css/index.css">
+    </head>
+
+    <header class="header_style">
+        <h1>To-Do List</h1>
+        <button class="new_task" onclick="OnAddTask()">Add Task</button>
+    </header>
+
+    <body>
+        <main class="tasks_style">
+            <div class="task_list">
+                <nav class="list_nav">
+                    <button id="all" onclick="NavClick(event)">
+                        <h4 id="all_text" class="nav_element">All</h4>
+                    </button>
+
+                    <button id="pending" onclick="NavClick(event)">
+                        <h4 id="pending_text" class="nav_element">Pending</h4>
+                    </button>
+
+                    <button id="completed" onclick="NavClick(event)">
+                        <h4 id="completed_text" class="nav_element">Completed</h4>
+                    </button>
+                </nav>
+
+                <div id="tasks" class="task_bars">
+                </div>
+            </div>
+
+            <div id="display_area" class="task_display">
+                <h1 id="task_name"></h1>
+                <h3>Description:</h3>
+                <p id="task_description"></p>
+                <h3>Due Date:</h3>
+                <p id="task_due_date"></p>
+                <h3>Status:</h3>
+                <p id="task_status"></p>
+                <button id="edit_task" onclick="OnEdit(event)">Edit Task</button>
+                <button id="done_button" onclick="OnDone(event)">Mark As Done</button>
+            </div>
+        </main>
+
+        <footer class="footer_style">
+            <h5>To-Do List</h5>
+            <h5>By: Shantanu Ingalagi</h5>
+        </footer>
+    </body>
+
+    <dialog id="task_dialog" class="task_dialog_style">
+        <form class="form_style">
+            <label for="name"><strong>Task Name:</strong></label>
+            <input id="name" type="text" required>
+            <br><br>
+            
+            <label for="description"><strong>Task Description:</strong></label>
+            <input id="description" type="text" required>
+            <br><br>
+            
+            <label for="dueDate"><strong>Due Date:</strong></label>
+            <input id="dueDate" type="date" required>
+            <br><br>
+            
+            <button onclick="OnSubmit(event)">Add Task</button>
+            <button id="cancel" onclick="OnCancel(event)">Cancel</button>
+        </form>
+    </dialog>
+
+    <dialog id="edit_dialog" class="task_dialog_style">
+        <form class="form_style">
+            <label for="edit_name"><strong>Task Name:</strong></label>
+            <input id="edit_name" type="text" required>
+            <br><br>
+            
+            <label for="edit_description"><strong>Task Description:</strong></label>
+            <input id="edit_description" type="text" required>
+            <br><br>
+            
+            <label for="edit_dueDate"><strong>Due Date:</strong></label>
+            <input id="edit_dueDate" type="date" required>
+            <br><br>
+
+            <button onclick="OnSaveChanges(event)">Save Changes</button>
+            <button onclick="OnCancel(event)">Cancel</button>
+        </form>
+    </dialog>
+
+    <script src="../js/Task.js"></script>
+    <script src="../js/ListSystem.js"></script>
+    <script src="../js/main.js"></script>
+</html>
