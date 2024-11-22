@@ -1,14 +1,10 @@
-// Create a new To-Do List.
 const list = new ListSystem();
-
-// Create a variable to keep track of the selected task at any given time.
 let selectedTask = null;
 
 let element = document.getElementById("all");
 element.style.color = "white";
 element.style.backgroundColor = "green";
 
-// This function creates a <div> element for a task, given the task's information.
 function CreateTaskBar(taskId, name, description, dueDate, status) {
     let nameResult = name;
     let descriptionResult = description;
@@ -64,43 +60,41 @@ const NavClick = (event) => {
     element.style.color = "white";
     element.style.backgroundColor = "green";
 
-    // 1. Clear the <div> associated with the "tasks" ID.
+    document.getElementById("tasks").innerHTML = "";
 
-    // 2. Get the tasks of the clicked status.
+    let tasks = list.GetTasks(clickedId);
     
-    // 3. Create a <div> element for each task and add it to the "tasks" <div>.
+    for (let i = 0; i < tasks.length; i++) {
+        const taskBar = CreateTaskBar(tasks[i].id, tasks[i].name, tasks[i].description, tasks[i].dueDate, tasks[i].status);
+        document.getElementById("tasks").appendChild(taskBar);
+    }
 };
 
 const OnAddTask = () => {
-    // 1. Display the "task_dialog" <dialog> object.
+    document.getElementById("task_dialog").showModal();
 };
 
 const OnSubmit = (event) => {
-    // Keep the page from reloading
     event.preventDefault();
+    document.getElementById("task_dialog").close();
 
-    // 1. Close the "task_dialog" <dialog> object.
+    const taskName = document.getElementById("name").value;
+    const taskDescription = document.getElementById("description").value;
+    const taskDueDate = document.getElementById("dueDate").value;
 
-    // 2. Extract the name, description, and due date values.
+    const taskId = list.AddTask(taskName, taskDescription, taskDueDate);
+    const taskBar = CreateTaskBar(taskId, taskName, taskDescription, taskDueDate, "Pending");
 
-    // 3. Add the task to the list using its information.
-
-    // 3. Create a DOM <div> object for the task using CreateTaskBar().
-
-    // 4. Append the <div> object to the "tasks" <div>.
+    document.getElementById("tasks").appendChild(taskBar);
 };
 
 const OnCancel = (event) => {
-    // Keep the page from reloading.
     event.preventDefault();
-
-    // 1. Close the "task_dialog" <dialog> object.
-
-    // 2. Close the "edit_dialog" <dialog> object.
+    document.getElementById("task_dialog").close();
+    document.getElementById("edit_dialog").close();
 };
 
 const OnTask = (event) => {
-    // 1. Get the ID of the clicked task (taskId).
     let targetId = event.target.id;
     let parentId = event.target.parentElement.id;
     let taskId = targetId;
@@ -111,47 +105,80 @@ const OnTask = (event) => {
 
     console.log("taskId: ", taskId);
 
-    // 2. Get the JSON representation of the clicked task.
+    const taskInfo = list.GetTaskInfo(taskId);
 
-    // 3. Change the background color of the currently selected task to green.
-    //    Note that there may be no task selected at the moment.
+    if ((selectedTask) && (document.getElementById(selectedTask))) {
+        document.getElementById(selectedTask).style.backgroundColor = "green";
+    }
 
-    // 4. Display each information of the task in its respective field in the display area.
+    document.getElementById("task_name").textContent = taskInfo.name;
+    document.getElementById("task_description").textContent = taskInfo.description;
+    document.getElementById("task_due_date").textContent = taskInfo.dueDate.toString();
+    document.getElementById("task_status").textContent = taskInfo.status;
+    document.getElementById("display_area").style.display = "inline";
+    document.getElementById(taskId).style.backgroundColor = "aqua";
+    selectedTask = taskId;
 
-    // 5. Set the selected task's global variable to the clicked task.
-
-    // 6. Change the text contents of the "done_button" <button> to reflect the status of the task.
+    if (taskInfo.status === "Completed") {
+        document.getElementById("done_button").textContent = "Mark as Undone";
+    } else {
+        document.getElementById("done_button").textContent = "Mark As Done";
+    }
 };
 
 const OnDone = (event) => {
-    // 1. Store the status of the task.
-   
-    // 2. Toggle the status of the task in the list.
+    const prevStatus = (list.GetTaskInfo(selectedTask).status === "Completed") ? true : false;
+    list.ToggleTaskStatus(selectedTask);
 
-    // 3. Change the status of the task in the UI appropriately.
+    if (prevStatus) {
+        document.getElementById("task_status").textContent = "Pending";
+        document.getElementById(selectedTask + "_status").textContent = "Pending";
+        document.getElementById("done_button").textContent = "Mark As Done";
+    } else {
+        document.getElementById("task_status").textContent = "Completed";
+        document.getElementById(selectedTask + "_status").textContent = "Completed";
+        document.getElementById("done_button").textContent = "Mark As Undone";
+    }
 };
 
 const OnEdit = (event) => {
-    // 1. Display the "edit_dialog" <dialog> object.
+    document.getElementById("edit_dialog").showModal();
 
-    // 2. Get the JSON representation of the selected task.
+    const taskInfo = list.GetTaskInfo(selectedTask);
 
-    // 3. Pre-fill the fields with the current information of the task.
+    document.getElementById("edit_name").value = taskInfo.name;
+    document.getElementById("edit_description").value = taskInfo.description;
+    document.getElementById("edit_dueDate").value = taskInfo.dueDate.toString();
 };
 
 const OnSaveChanges = (event) => {
-    // Keep the page from reloading.
     event.preventDefault();
+    document.getElementById("edit_dialog").close();
 
-    // 1. Close the "edit_dialog" <dialog> object.
+    newInfo = {
+        name: document.getElementById("edit_name").value,
+        description: document.getElementById("edit_description").value,
+        dueDate: document.getElementById("edit_dueDate").value
+    };
 
-    // 2. Create a JSON of the new information of the task.
+    list.EditTaskInfo(selectedTask, newInfo);
 
-    // 3. Edit the task's information in the list.
+    let previewName = newInfo.name;
+    let previewDescription = newInfo.description;
 
-    // 4. Create the preview name and description to be displayed in the selected tasks's <div>.
+    if (newInfo.name.length >= 10) {
+        previewName = newInfo.name.substring(0, 11) + "...";
+    }
 
-    // 5. Change the elements in the display area to reflect the new information.
+    if (newInfo.description.length >= 20) {
+        previewDescription = newInfo.description.substring(0, 21) + "...";
+    }
 
-    // 6. Change the elements in the task's <div> in the list area to reflect the new information.
+    document.getElementById("task_name").textContent = newInfo.name;
+    document.getElementById("task_description").textContent = newInfo.description;
+    document.getElementById("task_due_date").textContent = newInfo.dueDate.toString();
+
+    document.getElementById(selectedTask + "_name").textContent = previewName;
+    document.getElementById(selectedTask + "_description").textContent = previewDescription;
+    document.getElementById(selectedTask + "_dueDate").textContent = newInfo.dueDate;
 };
